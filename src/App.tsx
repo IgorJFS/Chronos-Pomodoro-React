@@ -1,9 +1,14 @@
-import { Container } from './components/Container/index';
-import { Logo } from './components/Logo';
 import './styles/theme.css';
 import './styles/global.css';
+import { Container } from './components/Container/index';
+import { Logo } from './components/Logo';
 import { Menu } from './components/Menu';
 import { Countdown } from './components/Countdown';
+import { Input } from './components/Input';
+import { Cycles } from './components/Cycles';
+import { DefaultButton } from './components/DefaultButton';
+import { PlayCircleIcon } from 'lucide-react';
+import { Footer } from './components/Footer';
 
 export function App() {
   return (
@@ -23,10 +28,10 @@ export function App() {
       <Container>
         <form className='form' action=''>
           <div className='formRow'>
-            <label htmlFor='task'>Task</label>
-            <input
-              type='text'
+            <Input
               id='task'
+              label='Task'
+              type='text'
               placeholder='What do you want to do?'
             />
           </div>
@@ -36,14 +41,17 @@ export function App() {
           </div>
 
           <div className='formRow'>
-            <p>Cycles</p>
-            <p>0 0 0 0 0 0 0 0</p>
+            <Cycles />
           </div>
 
           <div className='formRow'>
-            <button type='submit'>Start</button>
+            <DefaultButton icon={<PlayCircleIcon />} color='green' />
           </div>
         </form>
+      </Container>
+
+      <Container>
+        <Footer />
       </Container>
     </>
   );
