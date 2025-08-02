@@ -2,7 +2,7 @@ import { PlayCircleIcon } from 'lucide-react';
 import { Cycles } from '../Cycles';
 import { DefaultButton } from '../DefaultButton';
 import { Input } from '../Input';
-import { useTaskContext } from '../../contexts/TaskContext';
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 
 // type MainFormProps = HomeProps;
 //opcional podemos usar o tipo HomeProps aqui, mas não é necessário

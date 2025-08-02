@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import { useTaskContext } from '../../contexts/TaskContext';
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 
 // type CountdownProps = HomeProps;
 // opcional: podemos usar o tipo HomeProps aqui, mas não é necessário
