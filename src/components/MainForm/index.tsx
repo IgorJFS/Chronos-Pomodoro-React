@@ -5,10 +5,17 @@ import { Input } from '../Input';
 import { useRef } from 'react';
 import type { TaskModel } from '../../models/TaskModel';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { getNextCycle } from '../../utils/getNextCycle';
+import { getNextCycleType } from '../../utils/getNextCycleType';
+import { formatSeconds } from '../../utils/formatSeconds';
 
 export function MainForm() {
-  const { setState } = useTaskContext();
+  const { state, setState } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
+
+  //Cycles
+  const nextCycle = getNextCycle(state.currentCycle);
+  const nextCycleType = getNextCycleType(nextCycle);
 
   function handleCreateNewTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,7 +25,7 @@ export function MainForm() {
     const taskName = taskNameInput.current.value.trim();
 
     if (!taskName) {
-      taskNameInput.current.setCustomValidity('Please enter a task name');
+      alert('Please enter a task name');
       return;
     }
 
@@ -28,8 +35,8 @@ export function MainForm() {
       startDate: Date.now(),
       completeDate: null,
       interruptDate: null,
-      durationInMinutes: 50,
-      type: 'workTime',
+      durationInMinutes: state.config[nextCycleType],
+      type: nextCycleType,
     };
 
     const secondsRemaining = newTask.durationInMinutes * 60;
@@ -39,9 +46,9 @@ export function MainForm() {
         ...prev,
         config: { ...prev.config },
         activeTask: newTask,
-        currentCycle: 1, //conferir depois
-        secondsRemaining,
-        formattedSecondsRemaining: (newTask.durationInMinutes * 60).toString(),
+        currentCycle: nextCycle,
+        secondsRemaining, // its the same as secondsRemaining: secondsRemaining,
+        formattedSecondsRemaining: formatSeconds(secondsRemaining),
         tasks: [...prev.tasks, newTask],
       };
     });
@@ -60,7 +67,7 @@ export function MainForm() {
       </div>
 
       <div className='formRow'>
-        <p>Next break is 25min</p>
+        <p>Next break is 25 minutes</p>
       </div>
 
       <div className='formRow'>
