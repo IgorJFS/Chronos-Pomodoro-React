@@ -1,4 +1,4 @@
-import { PlayCircleIcon } from 'lucide-react';
+import { PlayCircleIcon, StopCircleIcon } from 'lucide-react';
 import { Cycles } from '../Cycles';
 import { DefaultButton } from '../DefaultButton';
 import { Input } from '../Input';
@@ -54,6 +54,27 @@ export function MainForm() {
     });
   }
 
+  function handleStopTask() {
+    setState(prev => {
+      return {
+        ...prev,
+        activeTask: null,
+        currentCycle: 0,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: '00:00',
+        tasks: prev.tasks.map(task => {
+          if (prev.activeTask?.id === task.id) {
+            return {
+              ...task,
+              interruptDate: Date.now(),
+            };
+          }
+          return task;
+        }),
+      };
+    });
+  }
+
   return (
     <form onSubmit={handleCreateNewTask} className='form' action=''>
       <div className='formRow'>
@@ -63,19 +84,40 @@ export function MainForm() {
           type='text'
           placeholder='What do you want to do?'
           ref={taskNameInput}
+          disabled={!!state.activeTask}
         />
       </div>
 
       <div className='formRow'>
         <p>Next break is 25 minutes</p>
       </div>
+      {state.currentCycle > 0 && (
+        <div className='formRow'>
+          <Cycles />
+        </div>
+      )}
 
       <div className='formRow'>
-        <Cycles />
-      </div>
-
-      <div className='formRow'>
-        <DefaultButton icon={<PlayCircleIcon />} color='green' />
+        {!state.activeTask ? (
+          <DefaultButton
+            type='submit'
+            aria-label='Start task'
+            title='Start task'
+            icon={<PlayCircleIcon />}
+            color='green'
+            key={nextCycle}
+          />
+        ) : (
+          <DefaultButton
+            type='button'
+            aria-label='Stop task'
+            title='Stop task'
+            icon={<StopCircleIcon />}
+            color='red'
+            onClick={handleStopTask}
+            key={nextCycle}
+          />
+        )}
       </div>
     </form>
   );
