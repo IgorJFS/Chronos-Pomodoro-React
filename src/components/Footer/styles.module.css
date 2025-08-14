@@ -16,3 +16,18 @@
   color: var(--text-muted);
   text-decoration: underline;
 }
+.socialLinks {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.socialLinks a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialLinks img:hover {
+  opacity: 0.5;
+}

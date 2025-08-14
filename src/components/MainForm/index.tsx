@@ -8,9 +8,10 @@ import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { getNextCycle } from '../../utils/getNextCycle';
 import { getNextCycleType } from '../../utils/getNextCycleType';
 import { formatSeconds } from '../../utils/formatSeconds';
+import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 
 export function MainForm() {
-  const { state, setState } = useTaskContext();
+  const { state, dispatch } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
 
   //Cycles
@@ -39,40 +40,11 @@ export function MainForm() {
       type: nextCycleType,
     };
 
-    const secondsRemaining = newTask.durationInMinutes * 60;
-
-    setState(prev => {
-      return {
-        ...prev,
-        config: { ...prev.config },
-        activeTask: newTask,
-        currentCycle: nextCycle,
-        secondsRemaining, // its the same as secondsRemaining: secondsRemaining,
-        formattedSecondsRemaining: formatSeconds(secondsRemaining),
-        tasks: [...prev.tasks, newTask],
-      };
-    });
+    dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
   }
 
   function handleStopTask() {
-    setState(prev => {
-      return {
-        ...prev,
-        activeTask: null,
-        currentCycle: 0,
-        secondsRemaining: 0,
-        formattedSecondsRemaining: '00:00',
-        tasks: prev.tasks.map(task => {
-          if (prev.activeTask?.id === task.id) {
-            return {
-              ...task,
-              interruptDate: Date.now(),
-            };
-          }
-          return task;
-        }),
-      };
-    });
+    dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   }
 
   return (
