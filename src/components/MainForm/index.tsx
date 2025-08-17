@@ -7,8 +7,8 @@ import type { TaskModel } from '../../models/TaskModel';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { getNextCycle } from '../../utils/getNextCycle';
 import { getNextCycleType } from '../../utils/getNextCycleType';
-import { formatSeconds } from '../../utils/formatSeconds';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
+import { Tips } from '../Tips';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -42,7 +42,6 @@ export function MainForm() {
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
   }
-
   function handleStopTask() {
     dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   }
@@ -61,7 +60,7 @@ export function MainForm() {
       </div>
 
       <div className='formRow'>
-        <p>Next break is 25 minutes</p>
+        <Tips />
       </div>
       {state.currentCycle > 0 && (
         <div className='formRow'>
@@ -87,7 +86,7 @@ export function MainForm() {
             icon={<StopCircleIcon />}
             color='red'
             onClick={handleStopTask}
-            key={nextCycle}
+            key={state.activeTask.id}
           />
         )}
       </div>
