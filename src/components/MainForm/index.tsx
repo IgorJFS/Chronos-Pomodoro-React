@@ -9,6 +9,9 @@ import { getNextCycle } from '../../utils/getNextCycle';
 import { getNextCycleType } from '../../utils/getNextCycleType';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 import { Tips } from '../Tips';
+import { loadBeepEnd, loadBeepStart } from '../../utils/loadBeep';
+import { toast } from 'react-toastify';
+import { showMessage } from '../../adapters/toastifyMessage';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -26,7 +29,7 @@ export function MainForm() {
     const taskName = taskNameInput.current.value.trim();
 
     if (!taskName) {
-      alert('Please enter a task name');
+      toast.warning('Please enter a task name');
       return;
     }
 
@@ -41,8 +44,12 @@ export function MainForm() {
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
+
+    toast.success('Task created!');
   }
   function handleStopTask() {
+    showMessage.dismiss();
+    showMessage.error('Task stopped!');
     dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   }
 
@@ -77,6 +84,11 @@ export function MainForm() {
             icon={<PlayCircleIcon />}
             color='green'
             key={nextCycle}
+            onClick={() => {
+              if (!taskNameInput.current?.value.trim()) return;
+              const playSound = loadBeepStart();
+              playSound();
+            }}
           />
         ) : (
           <DefaultButton
@@ -85,7 +97,11 @@ export function MainForm() {
             title='Stop task'
             icon={<StopCircleIcon />}
             color='red'
-            onClick={handleStopTask}
+            onClick={() => {
+              handleStopTask();
+              const playSound = loadBeepEnd();
+              playSound(); // Isso aqui realmente toca o som
+            }}
             key={state.activeTask.id}
           />
         )}
