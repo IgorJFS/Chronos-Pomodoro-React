@@ -9,7 +9,7 @@ export function MessagesContainer({ children }: MessageContainerProps) {
     <>
       <div className='messagesContainer'>{children}</div>
       <ToastContainer
-        toastStyle={{ opacity: 0.8 }}
+        toastStyle={{ opacity: 0.6, backgroundColor: '#000', color: '#fff' }}
         position='bottom-right'
         autoClose={5000}
         hideProgressBar={false}

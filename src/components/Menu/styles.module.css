@@ -13,6 +13,7 @@
   background: var(--primary);
   color: var(--text-over-primary);
   padding: 1.2rem;
+  opacity: 0.4;
   border-radius: 0.8rem;
 }
 

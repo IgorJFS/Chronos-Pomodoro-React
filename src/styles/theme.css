@@ -30,7 +30,13 @@
   --gray-600: #363d56;
   --gray-700: #272f43; /* Bordas e separadores */
   --gray-800: #181f2e; /* Fundo de cartões e áreas destacadas */
-  --gray-900: #0a0f1a; /* Fundo principal do site */
+  --gray-900: #0a0f1a;
+  --main-bg: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 39, 18, 1) 100%
+  ); /* Fundo principal do site */
 
   /* 🌿 Cores Primárias (cores fixas - NÃO mudam com o tema) */
   --primary-light: #4de7b7; /* Usado para realces suaves */
@@ -88,7 +94,17 @@
   --gray-600: #555f7d;
   --gray-700: #aab3cc;
   --gray-800: #cdd3e1;
-  --gray-900: #e6e9f0; /* Fundo principal claro */
+  --gray-900: #e6e9f0;
+  --main-bg: linear-gradient(
+    90deg,
+    rgba(134, 251, 201, 1) 0%,
+    rgba(112, 255, 164, 1) 16.667%,
+    rgba(102, 255, 132, 1) 33.333%,
+    rgba(105, 255, 110, 1) 50%,
+    rgba(120, 255, 99, 1) 66.667%,
+    rgba(147, 255, 100, 1) 83.333%,
+    rgba(181, 255, 114, 1)
+  ); /* Fundo principal claro */
 
   /* 📝 Texto no modo claro */
   --text-default: #0a0f1a; /* Texto principal no modo claro */
