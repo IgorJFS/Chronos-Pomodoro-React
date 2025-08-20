@@ -16,6 +16,7 @@ import { showMessage } from '../../adapters/toastifyMessage';
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
   const taskNameInput = useRef<HTMLInputElement>(null);
+  const lastTaskName = state.tasks[state.tasks.length - 1]?.name || '';
 
   //Cycles
   const nextCycle = getNextCycle(state.currentCycle);
@@ -63,6 +64,7 @@ export function MainForm() {
           placeholder='What do you want to do?'
           ref={taskNameInput}
           disabled={!!state.activeTask}
+          defaultValue={lastTaskName}
         />
       </div>
 

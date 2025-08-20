@@ -1,16 +1,17 @@
+import { RouterLink } from '../RouterLink';
 import styles from './styles.module.css';
 
 export function Logo() {
   return (
     <div className={styles.logo}>
-      <a className={styles.logoLink} href='#'>
+      <RouterLink className={styles.logoLink} href='/'>
         <img
           src='/pomodorosvg.png'
           alt='Chronos Logo'
           style={{ width: '250px', height: '150px' }}
         />
         <span>Chronos</span>
-      </a>
+      </RouterLink>
     </div>
   );
 }
