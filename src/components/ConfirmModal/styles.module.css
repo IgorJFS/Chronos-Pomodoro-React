@@ -1,0 +1,91 @@
+/* Overlay com fundo semi-transparente */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+
+  animation: fadeIn 0.25s ease;
+}
+
+/* Caixa do modal */
+.modal {
+  background: var(--gray-800);
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  width: 320px;
+  max-width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+  animation: slideUp 0.3s ease;
+}
+
+/* Texto */
+.modal p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: var(--text-default);
+}
+
+/* Botões */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Botão cancelar → cinza */
+.cancel {
+  background: var(--gray-700);
+  color: var(--text-default);
+}
+.cancel:hover {
+  background: var(--gray-600);
+}
+
+/* Botão confirmar → destrutivo vermelho */
+.confirm {
+  background: var(--error);
+  color: var(--text-over-error);
+}
+.confirm:hover {
+  filter: brightness(1.1);
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

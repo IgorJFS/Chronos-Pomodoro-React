@@ -1,37 +1,72 @@
-.buttonContainer button {
-  min-width: auto;
-  margin: 0;
-  padding: 1rem;
-}
-
-.buttonContainer button svg {
-  width: 2rem;
-  height: 2rem;
-}
-
 .responsiveTable {
   overflow-x: auto;
   border-radius: 0.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Tabela base */
 .responsiveTable table {
   width: 100%;
   min-width: 64rem;
   font-size: 1.6rem;
   border-collapse: collapse;
+  border-radius: 0.8rem;
+  overflow: hidden;
 }
 
+/* Cabeçalho */
 .responsiveTable th {
   background-color: var(--gray-600);
+  color: var(--text-default);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 0.2rem solid var(--gray-700);
+  padding: 1.2rem 1.6rem;
 }
 
+/* Células */
 .responsiveTable td {
   background-color: var(--gray-800);
+  color: var(--text-default);
+  padding: 1.2rem 1.6rem;
+  border-bottom: 0.2rem solid var(--gray-700);
 }
 
-.responsiveTable th,
-.responsiveTable td {
-  border-bottom: 0.2rem solid var(--gray-700);
-  text-align: left;
-  padding: 1.6rem;
+/* Zebra striping */
+.responsiveTable tr:nth-child(even) td {
+  background-color: var(--gray-700);
+}
+
+/* Hover row */
+.responsiveTable tr:hover td {
+  background-color: var(--gray-600);
+  transition: background 0.2s ease;
+}
+
+/* Colunas com sort */
+.thSort {
+  transition: all 0.15s ease-in-out;
+}
+.thSort:hover {
+  filter: brightness(85%);
+}
+
+/* Ajuste dos botões */
+.buttonContainer button {
+  min-width: auto;
+  margin: 0;
+  padding: 0.8rem;
+  border-radius: 0.6rem;
+  background: var(--gray-600);
+  color: var(--text-default);
+  transition: background 0.2s ease;
+}
+.buttonContainer button:hover {
+  background: var(--gray-500);
+}
+
+.buttonContainer button svg {
+  width: 1.8rem;
+  height: 1.8rem;
 }

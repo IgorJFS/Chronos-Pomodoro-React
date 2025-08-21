@@ -1,58 +1,133 @@
-import '../../styles/theme.css';
-import '../../styles/global.css';
-import styles from './styles.module.css';
-import { Container } from '../../components/Container';
-import { MainTemplate } from '../../templates/MainTemplate';
-import { Heading } from '../../components/Heading';
-import { DefaultButton } from '../../components/DefaultButton';
 import { TrashIcon } from 'lucide-react';
+import { Container } from '../../components/Container';
+import { DefaultButton } from '../../components/DefaultButton';
+import { Heading } from '../../components/Heading';
+import { MainTemplate } from '../../templates/MainTemplate';
+import { ConfirmModal } from '../../components/ConfirmModal';
+
+import styles from './styles.module.css';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { formatDate } from '../../utils/formatDate';
 import { getTaskStatus } from '../../utils/getTaskStatus';
+import { sortTasks, type SortTasksOptions } from '../../utils/sortTasks';
+import { useEffect, useState } from 'react';
+import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 
 export function History() {
-  const { state } = useTaskContext();
+  const { state, dispatch } = useTaskContext();
+  const hasTasks = state.tasks.length > 0;
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  function handleResetHistory() {
+    setShowConfirm(true);
+  }
+
+  function confirmDelete() {
+    dispatch({ type: TaskActionTypes.RESET_STATE });
+    setShowConfirm(false);
+  }
+
+  function cancelDelete() {
+    setShowConfirm(false);
+  }
+
+  const [sortTasksOptions, setSortTaskOptions] = useState<SortTasksOptions>(
+    () => {
+      return {
+        tasks: sortTasks({ tasks: state.tasks }),
+        field: 'startDate',
+        direction: 'desc',
+      };
+    },
+  );
+
+  useEffect(() => {
+    setSortTaskOptions(prevState => ({
+      ...prevState,
+      tasks: sortTasks({
+        tasks: state.tasks,
+        direction: prevState.direction,
+        field: prevState.field,
+      }),
+    }));
+  }, [state.tasks]);
+
+  function handleSortTasks({ field }: Pick<SortTasksOptions, 'field'>) {
+    const newDirection = sortTasksOptions.direction === 'desc' ? 'asc' : 'desc';
+
+    setSortTaskOptions({
+      tasks: sortTasks({
+        direction: newDirection,
+        tasks: sortTasksOptions.tasks,
+        field,
+      }),
+      direction: newDirection,
+      field,
+    });
+  }
 
   return (
-    <>
-      <MainTemplate>
-        <Container>
-          <Heading>
-            <span>Pomodoro History</span>
+    <MainTemplate>
+      <Container>
+        <Heading>
+          <span>History</span>
+          {hasTasks && (
             <span className={styles.buttonContainer}>
               <DefaultButton
                 icon={<TrashIcon />}
                 color='red'
-                aria-label='Delete history'
-                title='Delete history'
+                aria-label='Delete all history'
+                title='Delete all history'
+                onClick={handleResetHistory}
               />
             </span>
-          </Heading>
-        </Container>
+          )}
+        </Heading>
+      </Container>
 
-        <Container>
+      <Container>
+        {hasTasks && (
           <div className={styles.responsiveTable}>
             <table>
               <thead>
                 <tr>
-                  <th>Task</th>
-                  <th>Duration</th>
-                  <th>Date</th>
+                  <th
+                    onClick={() => handleSortTasks({ field: 'name' })}
+                    className={styles.thSort}
+                  >
+                    Task ↕
+                  </th>
+                  <th
+                    onClick={() =>
+                      handleSortTasks({ field: 'durationInMinutes' })
+                    }
+                    className={styles.thSort}
+                  >
+                    Duration ↕
+                  </th>
+                  <th
+                    onClick={() => handleSortTasks({ field: 'startDate' })}
+                    className={styles.thSort}
+                  >
+                    Date ↕
+                  </th>
                   <th>Status</th>
                   <th>Type</th>
                 </tr>
               </thead>
+
               <tbody>
-                {state.tasks.map(task => {
+                {sortTasksOptions.tasks.map(task => {
                   const taskTypeDictionary = {
-                    workTime: 'Work',
+                    workTime: 'Focus',
                     shortBreakTime: 'Short Break',
                     longBreakTime: 'Long Break',
                   };
+
                   return (
                     <tr key={task.id}>
                       <td>{task.name}</td>
-                      <td>{task.durationInMinutes}</td>
+                      <td>{task.durationInMinutes}min</td>
                       <td>{formatDate(task.startDate)}</td>
                       <td>{getTaskStatus(task, state.activeTask)}</td>
                       <td>{taskTypeDictionary[task.type]}</td>
@@ -62,8 +137,21 @@ export function History() {
               </tbody>
             </table>
           </div>
-        </Container>
-      </MainTemplate>
-    </>
+        )}
+
+        {!hasTasks && (
+          <p style={{ textAlign: 'center', fontWeight: 'bold' }}>
+            No tasks have been created yet.
+          </p>
+        )}
+      </Container>
+      {showConfirm && (
+        <ConfirmModal
+          message='Are you sure you want to delete all history?'
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
+    </MainTemplate>
   );
 }
