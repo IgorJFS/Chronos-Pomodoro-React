@@ -9,6 +9,8 @@ short/long breaks, task history, theming and mobile responsive design.
 
 ## Layout
 
+![PomodoroLayout](https://github.com/user-attachments/assets/b9080389-b520-4b5a-a6d3-17e9623eb483)
+
 ## Features
 
 - Pomodoro cycles: work, short break, long break
