@@ -13,12 +13,21 @@ export enum TaskActionTypes {
   RESET_STATE = 'RESET_STATE',
   COUNT_DOWN = 'COUNT_DOWN',
   COMPLETE_TASK = 'COMPLETE_TASK',
+  CHANGE_SETTINGS = 'CHANGE_SETTINGS',
 }
 
 export type TaskActionsWithPayload =
   | {
-      type: TaskActionTypes;
+      type: TaskActionTypes.START_TASK;
       payload: TaskModel;
+    }
+  | {
+      type: TaskActionTypes.CHANGE_SETTINGS;
+      payload: {
+        workTime: number;
+        shortBreakTime: number;
+        longBreakTime: number;
+      };
     }
   | { type: TaskActionTypes.COUNT_DOWN; payload: { secondsRemaining: number } };
 

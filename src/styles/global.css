@@ -6,7 +6,7 @@
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.5%; /* 1rem = 10px */
 }
 
 body {
@@ -16,6 +16,9 @@ body {
   background: var(--main-bg);
   color: var(--text-default);
 }
+
+/* TODO: mover esse form para algum outro lugar, talvez um componente separado */
+
 .form {
   display: flex;
   flex-direction: column;
