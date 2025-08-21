@@ -22,8 +22,6 @@ export function AboutPomodoro() {
             ensure breaks to avoid mental fatigue.
           </p>
 
-          <img src='https://placehold.co/1920x1080' alt='' />
-
           <h2>How does traditional Pomodoro work?</h2>
           <ul>
             <li>
