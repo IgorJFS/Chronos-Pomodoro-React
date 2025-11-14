@@ -1,0 +1,34 @@
+name: Preview QR Code
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  generate_qr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Wait for Vercel Preview URL
+        uses: jakejarvis/wait-for-vercel-preview@v1
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate QR code
+        run: |
+          mkdir -p qr
+          npx qrcode "${{ env.VERCEL_PREVIEW_URL }}" -o qr/preview.png
+
+      - name: Add PR comment with QR code
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            🚀 **Preview deployment is ready!**
+            🔗 URL: ${{ env.VERCEL_PREVIEW_URL }}
+
+            📱 **QR Code for mobile testing:**
+            ![QR Code](https://raw.githubusercontent.com/${{ github.repository }}/main/qr/preview.png)
